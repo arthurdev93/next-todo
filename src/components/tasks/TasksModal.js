@@ -1,75 +1,68 @@
 import Modal from '../shared/Modal';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 // import { Listbox, Transition } from '@headlessui/react'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 import { Listbox, Transition } from '@headlessui/react';
-const assignees = [
-	{ name: 'Unassigned', value: null },
-	{
-		name: 'Wade Cooper',
-		value: 'wade-cooper',
-		avatar:
-		'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-	},
-  	// More items...
-]
+// const assignees = [
+// 	{ name: 'Unassigned', value: null },
+// 	{
+// 		name: 'Wade Cooper',
+// 		value: 'wade-cooper',
+// 		avatar:
+// 		'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+// 	},
+//   	// More items...
+// ]
 const labels = [
-	{ name: 'Unlabelled', value: null },
-	{ name: 'Engineering', value: 'engineering' },
+	{ 
+        name: 'Unlabelled',
+        value: null
+    },
+	{ 
+        name: 'Engineering',
+        value: 'engineering' 
+    }
 	// More items...
 ]
 const dueDates = [
 	{ name: 'No due date', value: null },
 	{ name: 'Today', value: 'today' },
-  	// More items...
+	{ name: 'Tomorrow', value: 'tomorrow' }
+    // More items...
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
+export default function TasksModal({onSaveTask, task, setOpen, open, availableUsers = []}) {
 
-    const [assigned, setAssigned] = useState(assignees[0])
+    const [assigned, setAssigned] = useState({ name: 'Unassigned', value: null })
 	const [labelled, setLabelled] = useState(labels[0])
 	const [dated, setDated] = useState(dueDates[0])
-	const [taskModal, setTaskModal] = useState(false)
+    const [modalAction] = useState(task.id ? 'update' : 'store');
+    const [taskData, setTaskData] = useState(task);
 
-    // const addTask = () => {
-    //     if(taskField.length < 1) {
-    //         alert('task name cannot be empty!');
-    //         return;
-    //     } else if(_.find(tasks, {title: taskField}) !== undefined) {
-    //         alert('already exists a task with this name!');
-    //         return;
-    //     }
-    // }
+    const handleChangeTask = (attribute, value) => setTaskData({
+        ...task,
+        [attribute]: value
+    });
 
-
-	// const changeStatus = (taskID, newStatus) => {
-	// 	const modifiedTasks = _.map(
-	// 		tasks,
-	// 		(task) => {
-	// 			if (task.id === taskID) {
-	// 				return {
-	// 					...task,
-	// 					status: newStatus
-	// 				}
-	// 			} else {
-	// 				return task;
-	// 			}
-	// 		}
-	// 	);
-
-	// 	setTasks(modifiedTasks);
-	// }
+    useEffect(() => {
+        availableUsers = [
+            { name: 'Unassigned', value: null },
+            ...availableUsers
+        ]
+    }, [availableUsers])
+    
+    //VER AQUI - primeiro valor gerado ta retornando "null"
 
     return (
         <Modal
             open={open}
             setOpen={setOpen}
         >
-            				<form action="#" className="relative">
+                <form action="#" className="relative">
 					<div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
 					<label htmlFor="title" className="sr-only">
 						Title
@@ -78,6 +71,7 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 						type="text"
 						name="title"
 						id="title"
+                        onChange={(e)=> handleChangeTask(e.target.id, e.target.value)}
 						className="block w-full border-0 pt-2.5 text-lg font-medium placeholder-gray-500 focus:ring-0"
 						placeholder="Title"
 					/>
@@ -88,6 +82,7 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 						rows={2}
 						name="description"
 						id="description"
+                        onChange={(e)=> handleChangeTask(e.target.id, e.target.value)}
 						className="block w-full resize-none border-0 py-0 placeholder-gray-500 focus:ring-0 sm:text-sm"
 						placeholder="Write a description..."
 						defaultValue={''}
@@ -140,9 +135,10 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 								leaveTo="opacity-0"
 								>
 								<Listbox.Options className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-									{assignees.map((assignee) => (
+									{availableUsers.map((assignee) => (
 									<Listbox.Option
 										key={assignee.value}
+                                        onChange={(e)=> handleChangeTask('assign', assignee.name)}
 										className={({ active }) =>
 										classNames(
 											active ? 'bg-gray-100' : 'bg-white',
@@ -203,6 +199,7 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 									{labels.map((label) => (
 									<Listbox.Option
 										key={label.value}
+                                        onChange={(e)=> handleChangeTask('label', label.name)}
 										className={({ active }) =>
 										classNames(
 											active ? 'bg-gray-100' : 'bg-white',
@@ -257,6 +254,7 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 									{dueDates.map((dueDate) => (
 									<Listbox.Option
 										key={dueDate.value}
+                                        onChange={(e)=> handleChangeTask('dueDate', dueDate.name)}
 										className={({ active }) =>
 										classNames(
 											active ? 'bg-gray-100' : 'bg-white',
@@ -290,9 +288,10 @@ export default function TasksModal({setTasks, task, setTask, setOpen, open}) {
 						<div className="flex-shrink-0 ml-auto">
 						<button
 							type="submit"
+                            onClick={() => onSaveTask(taskData, modalAction)}
 							className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 						>
-							Create
+                            {modalAction ? 'Edit' : 'Create'}
 						</button>
 						</div>
 					</div>

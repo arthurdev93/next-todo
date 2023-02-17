@@ -8,7 +8,7 @@ import TasksModal from '@/components/tasks/TasksModal';
 
 export default function Home() {
 	const [openModal, setOpenModal] = useState (false)
-	const [task, setTask] = useState(null);
+	const [task, setTask] = useState({});
 
 	const [tasks, setTasks] = useState([
 		{
