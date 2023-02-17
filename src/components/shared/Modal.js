@@ -5,7 +5,7 @@ import { CheckIcon } from '@heroicons/react/24/outline'
 export default function Modal({children, open, setOpen}) {
 
 const cancelButtonRef = useRef(null);
-
+//referencia da pagina de trás
 return (
 	<Transition.Root show={open} as={Fragment}>
 		<Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>

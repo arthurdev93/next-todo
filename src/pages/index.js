@@ -1,8 +1,12 @@
 import _ from 'lodash';
-import {TrashIcon, PencilIcon} from '@heroicons/react/24/solid';
 import { useState } from 'react';
+import {TrashIcon, PencilIcon} from '@heroicons/react/24/solid';
+//cuidar ordem imports - ext/int
+import Modal from '@/components/shared/Modal';
 
 export default function Home() {
+	const [openModal, setopenModal] = useState (false)
+
 	const [tasks, setTasks] = useState([
 		{
 			id: '123',
@@ -55,6 +59,10 @@ export default function Home() {
 		setTasks(modifiedTasks);
 	}
 	return (
+		<>
+		<Modal open={openModal} setOpen={setopenModal}>
+		opa
+		</Modal>
 		<div className='flex bg-slate-600 max-h-screen max-w-full items-center py-4'>
 			<div className='flex flex-col gap-2 bg-gray-100 py-2 px-6 my-2 rounded m-auto '>
 				<div className='text-4xl font-'>To Do List</div>
@@ -65,7 +73,9 @@ export default function Home() {
 					value={taskField}
 				/>
 				<div className='flex flex-row gap-2 py-2 text-blue-700'>
-					<button className='bg-gray-300 py-2 px-4 rounded-lg hover:text-white hover:bg-blue-500'>
+					<button className='bg-gray-300 py-2 px-4 rounded-lg hover:text-white hover:bg-blue-500'
+					onClick={() => setopenModal(true)}
+					>
 						Add
 					</button>
 					<button 
@@ -112,5 +122,6 @@ export default function Home() {
 
 			</div>
 		</div>
+	</>
 	)
 }
