@@ -40,13 +40,8 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
     const [assigned, setAssigned] = useState({ name: 'Unassigned', value: null })
 	const [labelled, setLabelled] = useState(labels[0])
 	const [dated, setDated] = useState(dueDates[0])
-    const [modalAction] = useState(task.id ? 'update' : 'store');
-    const [taskData, setTaskData] = useState(task);
-	
-	useEffect(() => {
-		console.log(taskData)
-    }, [taskData])
-    
+    const [modalAction, setModalAction] = useState(task.id ? 'update' : 'store');
+    const [taskData, setTaskData] = useState(task); 
 
     const handleChangeTask = (attribute, value) => setTaskData({
         ...taskData,
@@ -60,7 +55,11 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
         ]
     }, [availableUsers])
     
-    //VER AQUI - primeiro valor gerado ta retornando "null"
+	useEffect(() => {
+		setTaskData(task)	//força atualização do dado da task a ser editada
+		setModalAction(task.id ? 'update' : 'store');
+		setAssigned(_.find(availableUsers, {name:task.assigned || 'Unassigned'}))	//procurar a ass q está na task, ou por default deixar unassaigned
+	}, [task])
 
     return (
         <Modal
@@ -79,6 +78,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
                         onChange={(e)=> handleChangeTask(e.target.id, e.target.value)}
 						className="block w-full border-0 pt-2.5 text-lg font-medium placeholder-gray-500 focus:ring-0"
 						placeholder="Title"
+						value={taskData.title || ''}
 					/>
 					<label htmlFor="description" className="sr-only">
 						Description
@@ -90,7 +90,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
                         onChange={(e)=> handleChangeTask(e.target.id, e.target.value)}
 						className="block w-full resize-none border-0 py-0 placeholder-gray-500 focus:ring-0 sm:text-sm"
 						placeholder="Write a description..."
-						defaultValue={''}
+						value={taskData.description || ''}
 					/>
 
 					{/* Spacer element to match the height of the toolbar */}
@@ -138,7 +138,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 								leave="transition ease-in duration-100"
 								leaveFrom="opacity-100"
 								leaveTo="opacity-0"
-								>
+								> 
 								<Listbox.Options className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 									{availableUsers.map((assignee) => (
 									<Listbox.Option
@@ -150,7 +150,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 											'relative cursor-default select-none py-2 px-3'
 										)
 										}
-										value={assignee}
+										value={assignee}	//ver como atualizar esses componentes, qual o atributo buscar dados dos select para mostrar na edição, e ao criar, mostrar default 
 									>
 										<div className="flex items-center">
 										{assignee.avatar ? (

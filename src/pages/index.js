@@ -1,6 +1,6 @@
-import _, { find } from 'lodash';
-import { useState } from 'react';
-import {TrashIcon} from '@heroicons/react/24/solid';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
+import {PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 import { PlusIcon as PlusIconMini } from '@heroicons/react/20/solid'
 import { PlusIcon as PlusIconOutline } from '@heroicons/react/24/outline'
 //cuidar ordem imports - ext/int
@@ -20,7 +20,7 @@ export default function Home() {
 
 	const onSaveTask = (action, taskData) => {
 		if (action === 'store') {
-			const newTaskId = Number(Math.random() * 100)
+			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);
 			setTasks([ 
 				...tasks, 
 				{
@@ -39,25 +39,25 @@ export default function Home() {
 		} 
 		setTask({}) 	//para após atualizar, deixar o task como um objeto vazio, p/ não conflitar o proximo create
 		setOpenModal(false)	//para fechar o modal, apos clicar no botao
-		console.log(tasks)
 	}
+
 
 	const removeTask = (taskID) => {
 		setTasks(tasks.filter((task) => task.id !== taskID));
 	}
-
-	// 	setTasks([
-	// 		...tasks,
-	// 		{
-	// 			id: Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1),
-	// 			status: false,
-	// 			title: taskField
-	// 		}
-	// 	]);
-
-	// 	setTaskField('');
-	// };
 	
+	const updateTask = (taskData) => {
+		setTask(taskData);
+		setOpenModal(true);
+	}
+
+	useEffect(() => {
+		if (!openModal) {
+			setTask ({})	//para zerar o objeto no modal, quando ele for fechado = reset
+		}
+	}, [openModal]
+	) 
+
 	return (
 		<>
 		<TasksModal 
@@ -105,6 +105,11 @@ export default function Home() {
 												{task.title}
 											</div>
 										</div>
+										<button className="flex justify-end w-24 text-right"
+											onClick={() => updateTask(task)}
+										>
+											<PencilIcon className='h-4 w-4 text-blue-600 hover:text-red-500'/>
+										</button>
 										<button className="flex justify-end w-24 text-right"
 											onClick={() => removeTask(task.id)}
 										>
