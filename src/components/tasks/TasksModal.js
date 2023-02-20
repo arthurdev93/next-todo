@@ -1,7 +1,6 @@
 import Modal from '../shared/Modal';
 import { Fragment, useEffect, useState } from 'react';
-// import { Listbox, Transition } from '@headlessui/react'
-import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/react/20/solid';
+import { CalendarIcon, TagIcon, UserCircleIcon } from '@heroicons/react/20/solid';
 import { Listbox, Transition } from '@headlessui/react';
 // const assignees = [
 // 	{ name: 'Unassigned', value: null },
@@ -21,6 +20,14 @@ const labels = [
 	{ 
         name: 'Engineering',
         value: 'engineering' 
+    },
+	{ 
+        name: 'Marketing',
+        value: 'marketing' 
+    },
+	{ 
+        name: 'Sales',
+        value: 'sales' 
     }
 	// More items...
 ]
@@ -67,7 +74,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
             setOpen={setOpen}
         >
                 <div className="relative">
-					<div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+					<div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-blue-800 focus-within:ring-1 focus-within:ring-bue-800">
 					<label htmlFor="title" className="sr-only">
 						Title
 					</label>
@@ -281,20 +288,11 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 						</Listbox>
 					</div>
 					<div className="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
-						{/* <div className="flex">
-						<button
-							type="button"
-							className="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400"
-						>
-							<PaperClipIcon className="-ml-1 mr-2 h-5 w-5 group-hover:text-gray-500" aria-hidden="true" />
-							<span className="text-sm italic text-gray-500 group-hover:text-gray-600">Attach a file</span>
-						</button>
-						</div> */}
 						<div className="flex-shrink-0 ml-auto">
 						<button
 							type="submit"
                             onClick={() => onSaveTask(modalAction, taskData)}
-							className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+							className="ml-auto inline-flex items-center rounded-md border border-transparent bg-blue-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-offset-2"
 						>
                             {modalAction === 'update'? 'Edit' : 'Create'}
 						</button>
