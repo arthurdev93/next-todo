@@ -72,7 +72,7 @@ export default function Home() {
 			<div className='flex flex-col gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
 				<div className='flex flex-row gap-2'>
 					<div className='text-4xl text-slate-800 font-mono'>To Do List</div>
-					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-blue-800 transition ease-in hover:bg-gradient-none hover:bg-red-600'
+					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-blue-800 transition ease-in hover:bg-red-600'
 						onClick={() => setOpenModal(true)}
 					>
         				<PlusIconMini className="h-5 w-5" aria-hidden="true"/>
