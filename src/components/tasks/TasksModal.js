@@ -42,9 +42,14 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 	const [dated, setDated] = useState(dueDates[0])
     const [modalAction] = useState(task.id ? 'update' : 'store');
     const [taskData, setTaskData] = useState(task);
+	
+	useEffect(() => {
+		console.log(taskData)
+    }, [taskData])
+    
 
     const handleChangeTask = (attribute, value) => setTaskData({
-        ...task,
+        ...taskData,
         [attribute]: value
     });
 
@@ -62,7 +67,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
             open={open}
             setOpen={setOpen}
         >
-                <form action="#" className="relative">
+                <div className="relative">
 					<div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
 					<label htmlFor="title" className="sr-only">
 						Title
@@ -288,15 +293,15 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 						<div className="flex-shrink-0 ml-auto">
 						<button
 							type="submit"
-                            onClick={() => onSaveTask(taskData, modalAction)}
+                            onClick={() => onSaveTask(modalAction, taskData)}
 							className="ml-auto inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 						>
-                            {modalAction ? 'Edit' : 'Create'}
+                            {modalAction === 'update'? 'Edit' : 'Create'}
 						</button>
 						</div>
 					</div>
 					</div>
-				</form>
+				</div>
         </Modal>
     );
 }

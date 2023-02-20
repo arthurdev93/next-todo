@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { find } from 'lodash';
 import { useState } from 'react';
 import {TrashIcon} from '@heroicons/react/24/solid';
 import { PlusIcon as PlusIconMini } from '@heroicons/react/20/solid'
@@ -17,7 +17,30 @@ export default function Home() {
 			title: 'first task'
 		}
 	]);
-	const [taskField, setTaskField] = useState('');
+
+	const onSaveTask = (action, taskData) => {
+		if (action === 'store') {
+			const newTaskId = Number(Math.random() * 100)
+			setTasks([ 
+				...tasks, 
+				{
+					...taskData, 
+					id: newTaskId
+				}
+			]) 
+
+		} else {
+			const newTasks = tasks;		//o array q quero editar
+			const taskIndex = _.findIndex(newTasks, {id: taskData.id})	//atributo q quero modificar
+			if (taskIndex !== -1) {
+				newTasks[taskIndex] = taskData;
+				setTasks(newTasks)			
+			}		//validação para garantir q não retornou indefinido
+		} 
+		setTask({}) 	//para após atualizar, deixar o task como um objeto vazio, p/ não conflitar o proximo create
+		setOpenModal(false)	//para fechar o modal, apos clicar no botao
+		console.log(tasks)
+	}
 
 	const removeTask = (taskID) => {
 		setTasks(tasks.filter((task) => task.id !== taskID));
@@ -38,9 +61,8 @@ export default function Home() {
 	return (
 		<>
 		<TasksModal 
-			setTasks={setTasks}
+			onSaveTask={onSaveTask}
 			task={task}	//status da task
-			setTask={setTask}	//após editar, voltar a task como nula (reseta o estado inicial)
 			setOpen={setOpenModal}
 			open={openModal}
 		/>
