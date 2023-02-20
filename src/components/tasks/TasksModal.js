@@ -50,11 +50,14 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
     const [modalAction, setModalAction] = useState(task.id ? 'update' : 'store');
     const [taskData, setTaskData] = useState(task); 
 
+	//abaixo, atualiza os dados da tarefa
+	//setTaskData que atualiza o estado da variável taskData através da criação de um novo objeto com os valores antigos do objeto taskData e com a atualização do atributo especificado com o novo valor passado para a função.
     const handleChangeTask = (attribute, value) => setTaskData({
         ...taskData,
         [attribute]: value
     });
 
+	//useEffect retorna 1-o valor atual do estado, e 2-função para atualizar ele
     useEffect(() => {
         availableUsers = [
             { name: 'Unassigned', value: null },
@@ -62,8 +65,9 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
         ]
     }, [availableUsers])
     
+	//aqui verifico se a task possui ID --então será editada, ou se é uma nova task que estou adc
 	useEffect(() => {
-		setTaskData(task)	//força atualização do dado da task a ser editada
+		setTaskData(task)	
 		setModalAction(task.id ? 'update' : 'store');
 		setAssigned(_.find(availableUsers, {name:task.assigned || 'Unassigned'}))	//procurar a ass q está na task, ou por default deixar unassaigned
 	}, [task])

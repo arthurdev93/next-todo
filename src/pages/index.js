@@ -1,12 +1,12 @@
-import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import _ from 'lodash';		//lodash tem varias funções utilitárias, como encontrar índices de elementos em um array
+import { useEffect, useState } from 'react';	//hooks de estado e efeito do ReactJS
 import {PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 import { PlusIcon as PlusIconMini } from '@heroicons/react/20/solid';
 //cuidar ordem imports - ext/int
 import TasksModal from '@/components/tasks/TasksModal';
 
 export default function Home() {
-	const [openModal, setOpenModal] = useState (false)
+	const [openModal, setOpenModal] = useState (false);
 	const [task, setTask] = useState({});
 
 	const [tasks, setTasks] = useState([
@@ -17,26 +17,27 @@ export default function Home() {
 		}
 	]);
 
+	//onSaveTask é chamada quando uma tarefa é criada ou atualizada no modal
 	const onSaveTask = (action, taskData) => {
 		if (action === 'store') {
-			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);
+			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);	//geração de ID aleatório
 			setTasks([ 
 				...tasks, 
 				{
 					...taskData, 
 					id: newTaskId
 				}
-			]) 
+			]) //Se uma tarefa existente estiver sendo atualizada, é encontrada pelo seu ID e atualizada no array de tarefas
 
 		} else {
-			const newTasks = tasks;		//o array q quero editar
-			const taskIndex = _.findIndex(newTasks, {id: taskData.id})	//atributo q quero modificar
+			const newTasks = tasks;		
+			const taskIndex = _.findIndex(newTasks, {id: taskData.id})	
 			if (taskIndex !== -1) {
 				newTasks[taskIndex] = taskData;
 				setTasks(newTasks)			
 			}		//validação para garantir q não retornou indefinido
 		} 
-		setTask({}) 	//para após atualizar, deixar o task como um objeto vazio, p/ não conflitar o proximo create
+		setTask({}) 	//para após atualizar, limpar a task, para não gerar nenhum conflito na proxima criação
 		setOpenModal(false)	//para fechar o modal, apos clicar no botao
 	}
 
@@ -45,11 +46,13 @@ export default function Home() {
 		setTasks(tasks.filter((task) => task.id !== taskID));
 	}
 	
+	//A função updateTask é usada para abrir o modal com os dados da tarefa atualmente selecionada, para que ela possa ser editada.
 	const updateTask = (taskData) => {
 		setTask(taskData);
 		setOpenModal(true);
 	}
 
+	//O useEffect é usado para redefinir a tarefa atual para um objeto vazio sempre que o modal é fechado. Finalmente, o componente renderiza a lista de tarefas e o botão para abrir o modal.
 	useEffect(() => {
 		if (!openModal) {
 			setTask ({})	//para zerar o objeto no modal, quando ele for fechado = reset
@@ -69,7 +72,7 @@ export default function Home() {
 			<div className='flex flex-col gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
 				<div className='flex flex-row gap-2'>
 					<div className='text-4xl text-slate-800 font-mono'>To Do List</div>
-					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-blue-800 transition ease-in hover:gradiente-none hover:bg-red-600'
+					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-blue-800 transition ease-in hover:bg-gradient-none hover:bg-red-600'
 						onClick={() => setOpenModal(true)}
 					>
         				<PlusIconMini className="h-5 w-5" aria-hidden="true"/>
