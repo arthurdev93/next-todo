@@ -19,6 +19,8 @@ export default function Home() {
 
 	//onSaveTask é chamada quando uma tarefa é criada ou atualizada no modal
 	const onSaveTask = (action, taskData) => {
+		//insert a verification to not allow empty tasks
+
 		if (action === 'store') {
 			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);	//geração de ID aleatório
 			setTasks([ 
@@ -35,7 +37,9 @@ export default function Home() {
 			if (taskIndex !== -1) {
 				newTasks[taskIndex] = taskData;
 				setTasks(newTasks)			
-			}		//validação para garantir q não retornou indefinido
+			}	else {
+				return;
+			}
 		} 
 		setTask({}) 	//para após atualizar, limpar a task, para não gerar nenhum conflito na proxima criação
 		setOpenModal(false)	//para fechar o modal, apos clicar no botao
@@ -69,7 +73,7 @@ export default function Home() {
 			open={openModal}
 		/>
 		<div className='flex h-screen w-screen items-center bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600'>
-			<div className='flex flex-col gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
+			<div className='flex flex-col w-1/2 gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
 				<div className='flex flex-row gap-2'>
 					<div className='text-4xl text-slate-800 font-mono'>To Do List</div>
 					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-sky-800 transition ease-in hover:from-sky-800 hover:to-sky-500 '
