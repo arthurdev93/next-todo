@@ -2,6 +2,7 @@ import _ from 'lodash';		//lodash tem varias funções utilitárias, como encont
 import { useEffect, useState } from 'react';	//hooks de estado e efeito do ReactJS
 import {PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 import { PlusIcon as PlusIconMini } from '@heroicons/react/20/solid';
+import Swal from 'sweetalert2';
 //cuidar ordem imports - ext/int
 import TasksModal from '@/components/tasks/TasksModal';
 
@@ -19,7 +20,13 @@ export default function Home() {
 
 	//onSaveTask é chamada quando uma tarefa é criada ou atualizada no modal
 	const onSaveTask = (action, taskData) => {
-		//insert a verification to not allow empty tasks
+		//insert a verification to not save a empty task
+		// if (!newText) {
+		// 	alert("You have not entered any text, the task will not be updated.");
+		// }
+		// else if(newText.trim() == ''){
+		// 	alert("You have not entered any text, the task will not be updated.");
+		// }
 
 		if (action === 'store') {
 			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);	//geração de ID aleatório
@@ -37,17 +44,31 @@ export default function Home() {
 			if (taskIndex !== -1) {
 				newTasks[taskIndex] = taskData;
 				setTasks(newTasks)			
-			}	else {
-				return;
-			}
+			} 
 		} 
-		setTask({}) 	//para após atualizar, limpar a task, para não gerar nenhum conflito na proxima criação
+		// setTask({}) 	//para após atualizar, limpar a task, para não gerar nenhum conflito na proxima criação
 		setOpenModal(false)	//para fechar o modal, apos clicar no botao
 	}
 
-
 	const removeTask = (taskID) => {
-		setTasks(tasks.filter((task) => task.id !== taskID));
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		  }).then((result) => {
+			if (result.isConfirmed) {
+				setTasks(tasks.filter((task) => task.id !== taskID)); //aqui executa o delete
+				Swal.fire(
+					'Deleted!',
+					'Your file has been deleted.',
+					'success'
+				)
+			}
+		  })
 	}
 	
 	//A função updateTask é usada para abrir o modal com os dados da tarefa atualmente selecionada, para que ela possa ser editada.

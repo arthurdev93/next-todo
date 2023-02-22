@@ -70,7 +70,15 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 		setTaskData(task)	
 		setModalAction(task.id ? 'update' : 'store');
 		setAssigned(_.find(availableUsers, {name:task.assigned || 'Unassigned'}))	//procurar a ass q está na task, ou por default deixar unassaigned
-	}, [task])
+	}, [task]);
+
+	//aqui não deixo uma task vazia ser salva
+	const handleSaveTask = () => {
+		if(!taskData.title || !taskData.description)
+			return alert("required fields: title and description");
+
+		onSaveTask(modalAction, taskData);
+	}
 
     return (
         <Modal
@@ -295,7 +303,7 @@ export default function TasksModal({onSaveTask, task, setOpen, open, availableUs
 						<div className="flex-shrink-0 ml-auto">
 						<button
 							type="submit"
-                            onClick={() => onSaveTask(modalAction, taskData)}
+                            onClick={() => handleSaveTask()}
 							className="ml-auto inline-flex items-center rounded-md border border-transparent bg-blue-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-offset-2"
 						>
                             {modalAction === 'update'? 'Edit' : 'Create'}
