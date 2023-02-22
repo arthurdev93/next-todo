@@ -1,6 +1,6 @@
-import { Fragment, useState } from 'react'
-import { UsersIcon } from '@heroicons/react/24/outline'
-import { Combobox, Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react';
+import { UsersIcon } from '@heroicons/react/24/outline';
+import { Combobox, Dialog, Transition } from '@headlessui/react';
 
 const people = [
   { id: 1, name: 'Leslie Alexander', url: '#' },
@@ -11,7 +11,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function searchField() {
   const [query, setQuery] = useState('')
 
   const [open, setOpen] = useState(true)

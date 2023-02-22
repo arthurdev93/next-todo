@@ -4,6 +4,7 @@ import {PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 import { PlusIcon as PlusIconMini } from '@heroicons/react/20/solid';
 import Swal from 'sweetalert2';
 //cuidar ordem imports - ext/int
+import searchField from '@/components/SearchField';
 import TasksModal from '@/components/tasks/TasksModal';
 
 export default function Home() {
@@ -97,7 +98,6 @@ export default function Home() {
 		<div className='flex h-screen w-screen items-center bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600'>
 			<div className='flex flex-col w-1/2 gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
 				<div className='flex flex-row gap-2'>
-					
 					<div className='text-4xl text-slate-800 font-mono'>To Do List</div>
 					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-sky-800 transition ease-in hover:from-sky-800 hover:to-sky-500 '
 						onClick={() => setOpenModal(true)}
