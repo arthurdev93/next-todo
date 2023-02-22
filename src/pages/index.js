@@ -20,13 +20,6 @@ export default function Home() {
 
 	//onSaveTask é chamada quando uma tarefa é criada ou atualizada no modal
 	const onSaveTask = (action, taskData) => {
-		//insert a verification to not save a empty task
-		// if (!newText) {
-		// 	alert("You have not entered any text, the task will not be updated.");
-		// }
-		// else if(newText.trim() == ''){
-		// 	alert("You have not entered any text, the task will not be updated.");
-		// }
 
 		if (action === 'store') {
 			const newTaskId = Math.floor(Math.random() * (999999999999 - 1 + 9999) + 1);	//geração de ID aleatório
@@ -48,6 +41,13 @@ export default function Home() {
 		} 
 		// setTask({}) 	//para após atualizar, limpar a task, para não gerar nenhum conflito na proxima criação
 		setOpenModal(false)	//para fechar o modal, apos clicar no botao
+		Swal.fire({
+			position: 'top-end',
+			icon: 'success',
+			title: 'Task list updated',
+			showConfirmButton: false,
+			timer: 1500
+		  })
 	}
 
 	const removeTask = (taskID) => {
@@ -84,7 +84,8 @@ export default function Home() {
 		}
 	}, [openModal]
 	) 
-
+	  	  
+	  
 	return (
 		<>
 		<TasksModal 
@@ -96,11 +97,12 @@ export default function Home() {
 		<div className='flex h-screen w-screen items-center bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600'>
 			<div className='flex flex-col w-1/2 gap-2 bg-gray-100 py-7 px-10 rounded-xl m-auto shadow-lg selection:bg-blue-300 '>
 				<div className='flex flex-row gap-2'>
+					
 					<div className='text-4xl text-slate-800 font-mono'>To Do List</div>
 					<button className='ml-auto inline-flex items-center rounded-full border text-white p-2 bg-gradient-to-br from-sky-500 to-sky-800 transition ease-in hover:from-sky-800 hover:to-sky-500 '
 						onClick={() => setOpenModal(true)}
 					>
-        				<PlusIconMini className="h-5 w-5" aria-hidden="true"/>
+        				<PlusIconMini className="h-7 w-7" aria-hidden="true"/>
 					</button>
 
 				</div>
@@ -120,19 +122,19 @@ export default function Home() {
 								<li className="flex flex-row" key={task.id}>
 									<div className="flex items-center flex-1 p-4">
 										<div className="flex-1 pl-1 mr-16">
-											<div className="font-medium dark:text-white">
+											<div className="font-medium text-lg dark:text-white">
 												{task.title}
 											</div>
 										</div>
 										<button className="flex text-right px-2"
 											onClick={() => updateTask(task)}
 										>
-											<PencilIcon className='h-4 w-4 text-gray-800 hover:text-blue-700'/>
+											<PencilIcon className='h-5 w-5 text-gray-800 hover:text-blue-700'/>
 										</button>
 										<button className="flex text-right"
 											onClick={() => removeTask(task.id)}
 										>
-											<TrashIcon className='h-4 w-4 text-gray-800 hover:text-blue-800'/>
+											<TrashIcon className='h-5 w-5 text-gray-800 hover:text-blue-800'/>
 										</button>
 									</div>
 								</li>
