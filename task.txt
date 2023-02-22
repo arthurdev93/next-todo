@@ -1,0 +1,10 @@
+>>TASK 
+- impedir de criar tarefa vazia
+- quando inserir task, gerar botão alert canto superior direito
+- ao apagar task, abrir Modal, exigindo confirmação
+
+VER YUP, para validar a inserção de taks
+
+
+>>DUVIDA
+- selects, como pegar os dados

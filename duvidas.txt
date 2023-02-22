@@ -1,2 +1,0 @@
-- selects, como pegar os dados
-- como mudar o hover de um botão que está com gradiente (+)
