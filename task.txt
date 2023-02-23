@@ -1,6 +1,0 @@
->>TASK 
-- quando inserir task, gerar botão alert canto superior direito
-
->>DUVIDA
-- selects, como pegar os dados
-- alterar cor botão sweetalert
