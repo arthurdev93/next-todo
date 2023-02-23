@@ -1,5 +1,3 @@
-#https://arthurdev93.github.io/next-todo/
-
 **TODO LIST
 
 **FEATURES
@@ -10,9 +8,6 @@
 **TECHNOLOGIES
 - NextJS
 - TailwindCSS
-
-**LIVE DEMO
-https://arthurdev93.github.io/next-todo/
 
 **PREVIEW (PrintScreen)
 https://github.com/arthurdev93/next-todo/edit/main/preview.png
