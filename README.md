@@ -17,5 +17,4 @@ git clone https://github.com/arthurdev93/next-todo
 yarn
 ```
 
-**PREVIEW (PrintScreen)
-https://github.com/arthurdev93/next-todo/edit/main/preview.png
+!PREVIEW](https://github.com/arthurdev93/next-todo/edit/main/preview.png)
