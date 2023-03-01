@@ -16,6 +16,6 @@ To run this project on yout machine, type it:
 git clone https://github.com/arthurdev93/next-todo
 yarn
 ```
+<h3>LAYOUT PREVIEW </h3>
 
-PREVIEW] 
-(https://github.com/arthurdev93/next-todo/blob/main/preview.png)
+![preview](https://user-images.githubusercontent.com/97352358/222207067-adcaa548-c406-4dc3-8cd6-be525d263226.png)
